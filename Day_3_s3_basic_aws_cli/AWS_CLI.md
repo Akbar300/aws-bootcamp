@@ -62,10 +62,13 @@ You can type the commands as remembered or you can get the help using auto promp
 aws --cli-auto-prompt
 ```
 
+### S3 CLI Examples [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html)
+
+
+
 
 
 ## Sample bucket policy 
-
 ```json
 {
     "Version": "2012-10-17",
@@ -78,9 +81,11 @@ aws --cli-auto-prompt
                 "s3:GetObject"
             ],
             "Resource": [
+                "arn:aws:s3:::Bucket-Name",
                 "arn:aws:s3:::Bucket-Name/*"
             ]
         }
     ]
 }
 ```
+
