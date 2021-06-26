@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Description:
-  'Cybertek Image CloudFormation Template'
+  'Cybertek Image CloudFormation Template : It create ec2 instance from cybertek image and create security group with prot 8000, 7000, 1000, 1521, 8081.  Create Elastic IP address and assign it to the created EC2 instance'
 
 Resources:
 
