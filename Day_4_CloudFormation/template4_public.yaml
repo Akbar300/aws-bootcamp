@@ -8,11 +8,7 @@ Resources:
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      # UserData: !Base64
-      #   'Fn::Join':
-      #     - ''
-      #     - - IPAddress=
-      #       - !Ref IPAddress
+    
       InstanceType: 't2.micro'
       SecurityGroups:
         - !Ref InstanceSecurityGroup

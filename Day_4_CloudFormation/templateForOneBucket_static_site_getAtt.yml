@@ -1,0 +1,13 @@
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+Outputs: 
+  WebsiteURL: 
+    Description: Final bucket website URL , upload index.html and error.html to make it functional
+    Value : !GetAtt MyBucket.WebsiteURL
