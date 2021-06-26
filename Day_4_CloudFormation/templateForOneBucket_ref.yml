@@ -10,4 +10,4 @@ Resources:
 Outputs: 
   FinalBucketName: 
     Description: FInal bucket name came out from cfn 
-    Value : !Ref MyBucket
+    Value : !Ref MyBucket # referring the resource returned value , in this case bucket name of created bucket

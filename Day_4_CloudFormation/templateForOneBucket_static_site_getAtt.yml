@@ -10,4 +10,4 @@ Resources:
 Outputs: 
   WebsiteURL: 
     Description: Final bucket website URL , upload index.html and error.html to make it functional
-    Value : !GetAtt MyBucket.WebsiteURL
+    Value : !GetAtt MyBucket.WebsiteURL # GetAtt function can be used to get attribute of the resource
