@@ -8,6 +8,11 @@ Parameters:
     Description: enter your unique bucketName
     Type: String
     Default: my-awesome-unique-bucket123
+  
+  Bootcamp:
+    Description: say something cool
+    Type: String
+    Default: aws is cool
 
 Resources:
   MyBucket:
