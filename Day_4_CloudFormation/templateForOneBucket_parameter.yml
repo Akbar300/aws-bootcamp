@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description:
+  'Template to create single s3 bucket'
+
+Parameters: 
+  YourBucketName:
+    Description: enter your unique bucketName
+    Type: String
+    Default: my-awesome-unique-bucket123
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref YourBucketName
+
+# Outputs: 
+#   FinalBucketName: 
+#     Description: FInal bucket name came out from cfn 
+#     Value : !Ref MyBucket

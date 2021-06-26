@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description:
+  'Linux instance with simple http server installed'
+
+Resources:
+
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      ImageId: 'ami-0ab4d1e9cf9a1215a'
+      Tags: 
+        - Key: "Name"
+          Value: "MyLinuxServer"
+      UserData: 
+        Fn::Base64: |
+          #!/bin/bash -xe
+          yum update -y # good practice to update existing packages
+          yum install -y httpd # install web server 
+          systemctl start httpd
+          systemctl enable httpd   
+          echo "<html><body><h1>Hello Cybertek Alumni, this is web server1 created from cloudformation template</h1></body></html>" > /var/www/html/index.html
+
+
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Port 22 and 80
+      Tags: 
+        - Key: "Name"
+          Value: "Linux-SG"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+          Description: HR ORDS API
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: FOR SPARTAN App
+        
+
+Outputs:
+
+  1xPublicIP:
+    Description: Public IP address of the newly created EC2 instance
+    Value: !GetAtt MyEC2Instance.PublicIp 
+  1xPublicDNS:
+    Description: Public DNS of the newly created EC2 instance
+    Value: !GetAtt MyEC2Instance.PublicDnsName 

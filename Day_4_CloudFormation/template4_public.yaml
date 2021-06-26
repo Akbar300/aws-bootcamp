@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description:
+  'Cybertek Image CloudFormation Template'
+
+Resources:
+
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      # UserData: !Base64
+      #   'Fn::Join':
+      #     - ''
+      #     - - IPAddress=
+      #       - !Ref IPAddress
+      InstanceType: 't2.micro'
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      ImageId: 'ami-0600ada9f2792ef9c'
+      Tags: 
+        - Key: "Name"
+          Value: "MyCourseServer"
+  ## Optionally Static IP and assign
+  IPAddress:
+    Type: 'AWS::EC2::EIP'
+    Properties:
+      Tags: 
+        - Key: "Name"
+          Value: "CourseStaticIP"
+  IPAssoc:
+    Type: 'AWS::EC2::EIPAssociation'
+    Properties:
+      InstanceId: !Ref MyEC2Instance
+      EIP: !Ref IPAddress
+
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Cybertek Course Ports
+      Tags: 
+        - Key: "Name"
+          Value: "Course-SG"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 1000
+          ToPort: 1000
+          CidrIp: 0.0.0.0/0
+          Description: HR ORDS API
+        - IpProtocol: tcp
+          FromPort: 8000
+          ToPort: 8000
+          CidrIp: 0.0.0.0/0
+          Description: FOR SPARTAN App
+        - IpProtocol: tcp
+          FromPort: 1521
+          ToPort: 1521
+          CidrIp: 0.0.0.0/0
+          Description: FOR ORACLE Database
+        - IpProtocol: tcp
+          FromPort: 7000
+          ToPort: 7000
+          CidrIp: 0.0.0.0/0
+          Description: FOR SPARTAN App WITH AUTH WITH DIFFERENT DB
+        - IpProtocol: tcp
+          FromPort: 8081
+          ToPort: 8081
+          CidrIp: 0.0.0.0/0
+          Description: FOR Jenkins
+
+
+Outputs:
+
+  7xHrOrdsRegionEndpoint:
+    Description: HR ORDS API GET /regions endpoint 
+    Value: !Join
+              - ''
+              - - 'http://'
+                - !Ref IPAddress
+                - ':1000/ords/hr/api/regions'
+  6xJdbcURL:
+    Description: JDBC Url for Oracle Database connection with hr/hr
+    Value: !Sub 'jdbc://oracle:thin@${IPAddress}:1521'
+
+  5xSQLworksheet:
+    Description: Oracle Database SQL worksheet with username hr password hr
+    Value: !Sub  'http://${IPAddress}:1000/ords/hr/_sdw/?nav=worksheet'
+
+  4xJenkinsURL:
+    Description: Jenkins URL for initial setup and onward
+    Value: !Sub  'http://${IPAddress}:8081'
+
+  3xSpartanWithAuthURL:
+    Description: Spartan App With WITH Auth URL (admin/admin editor/editor user/user)
+    Value: !Sub 'http://${IPAddress}:7000'
+  2xSpartanNoAuthURL:
+    Description: Spartan App With No Auth URL
+    Value: !Sub 'http://${IPAddress}:8000'
+  1xPublicIP:
+    Description: Public IP address of the newly created EC2 instance
+    Value: !GetAtt MyEC2Instance.PublicIp #Same as elastic IP in this case
+  

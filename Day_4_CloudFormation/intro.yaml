@@ -1,0 +1,40 @@
+YAML: YAML Ain't Markup Language
+What It Is: YAML is a human friendly data serialization
+  standard for all programming languages.
+
+key1 : value1
+key2 : value2
+
+# Nested values , every indentation matters 
+key3 : 
+  childKey:
+    moreKey: "another value"
+
+# List of car in 2 different way
+CarMakes : 
+  - Honda
+  - Toyota
+  - Mercedes 
+
+CarMakes2 : [Honda, Toyota , Mercedes]
+
+# Single person with 2 attributes 
+Person: 
+  name : Adam
+  age : 24
+
+# List of person 
+People: 
+  - name : Adam
+    age : 24
+  - name : Adam
+    age : 29
+  - name : Mary
+    age : 44
+  
+# Simple Cloudformation template to create bucket
+Resources: 
+  myS3Bucket: 
+    Type: "AWS::S3::Bucket"
+    Properties: 
+      BucketName: "sample-bucket-to-be-created"

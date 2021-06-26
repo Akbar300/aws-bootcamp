@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description:
+  'Cybertek Image CloudFormation Template'
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      ImageId: 'ami-0600ada9f2792ef9c'
+      Tags: 
+        - Key: "Name"
+          Value: "AwesomeServer1"
+
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      Tags: 
+        - Key: "Name"
+          Value: "Cool-SG"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '1000'
+          ToPort: '1000'
+          CidrIp: 0.0.0.0/0
+          Description: 'HR ORDS API'
+        - IpProtocol: tcp
+          FromPort: '8000'
+          ToPort: '8000'
+          CidrIp: 0.0.0.0/0
+          Description: 'FOR SPARTAN APP'
+        - IpProtocol: tcp
+          FromPort: '1521'
+          ToPort: '1521'
+          CidrIp: 0.0.0.0/0
+          Description: 'FOR ORACLE DB'
+        - IpProtocol: tcp
+          FromPort: '7000'
+          ToPort: '7000'
+          CidrIp: 0.0.0.0/0
+          Description: 'FOR SPARTAN APP WITH AUTH'
+        - IpProtocol: tcp
+          FromPort: '8081'
+          ToPort: '8081'
+          CidrIp: 0.0.0.0/0
+          Description: 'FOR Jenkins'
+      
+#!Join [ ":", [ a, b, c ] ]
+Outputs:
+  JdbcURL:
+    Description: JDBC Url for Oracle Database connection with hr/hr
+    Value: !Sub 
+              - 'jdbc://oracle:thin@${PublicIP}:1521'
+              - { PublicIP: !GetAtt EC2Instance.PublicIp }
+  JenkinsURL:
+    Description: Jenkins URL for initial setup and onward
+    Value: !Sub 
+              - 'http://${PublicIP}:8081'
+              - { PublicIP: !GetAtt EC2Instance.PublicIp }
+  SpartanWithAuthURL:
+    Description: Spartan App With WITH Auth URL (admin/admin editor/editor user/user)
+    Value: !Sub 
+              - 'http://${PublicIP}:7000'
+              - { PublicIP: !GetAtt EC2Instance.PublicIp }
+  SpartanNoAuthURL:
+    Description: Spartan App With No Auth URL
+    Value: !Sub 
+              - 'http://${PublicIP}:8000'
+              - { PublicIP: !GetAtt EC2Instance.PublicIp }
+  PublicIP:
+    Description: Public IP address of the newly created EC2 instance
+    Value: !GetAtt EC2Instance.PublicIp
+  

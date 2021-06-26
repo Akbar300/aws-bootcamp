@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description:
+  'Template to create single s3 bucket'
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+
+Outputs: 
+  FinalBucketName: 
+    Description: FInal bucket name came out from cfn 
+    Value : !Ref MyBucket
