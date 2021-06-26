@@ -1,6 +1,8 @@
-# CloudFormation
+# CloudFormation 
 
 AWS CloudFormation gives you an easy way to model a collection of related AWS and third-party resources, provision them quickly and consistently, and manage them throughout their lifecycles, by treating infrastructure as code.
+
+[Full Documentation here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
 
 ### Infrastructure as code
 The process of managing and provisioning infrastructure through machine readable definition files
@@ -76,6 +78,8 @@ Resources:
 
 * `Outputs` 
 The optional Outputs section declares output values that you can display after creation complete for example EC2 IP Address or Website URL from S3 static site
+
+[Template reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html)
 
 ### Intristic Functions 
 AWS CloudFormation provides several built-in functions that help you manage your stacks. Use intrinsic functions in your templates to assign values to properties that are not available until runtime.

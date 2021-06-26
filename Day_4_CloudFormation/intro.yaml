@@ -16,12 +16,21 @@ CarMakes :
   - Toyota
   - Mercedes 
 
-CarMakes2 : [Honda, Toyota , Mercedes]
+CarMakes2 : ["Honda", 'Toyota' , Mercedes]
 
 # Single person with 2 attributes 
 Person: 
   name : Adam
   age : 24
+
+# in json 
+# {
+#     "Person" : {
+#         "name" : "Adam"
+#         "age" : 24
+#     } 
+
+# }
 
 # List of person 
 People: 
@@ -31,7 +40,28 @@ People:
     age : 29
   - name : Mary
     age : 44
-  
+    
+# in json 
+# {
+#     "People": [
+#         {
+#             "name" : "Adam",
+#             "age" : 24
+#         },
+#         {
+#             "name" : "Adam",
+#             "age" : 29
+#         },
+#         {
+#             "name" : "Mary",
+#             "age" : 44
+#         }
+
+#     ] 
+    
+# }
+
+
 # Simple Cloudformation template to create bucket
 Resources: 
   myS3Bucket: 
